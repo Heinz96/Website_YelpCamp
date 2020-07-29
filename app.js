@@ -31,7 +31,15 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-mongoose.connect("mongodb://localhost/yelp_camp_v6");
+mongoose.connect("mongodb+srv://enzols:ozneNon@m96@cluster0.fnjla.mongodb.net/yelp_camp_v6?retryWrites=true&w=majority", {
+	useNewUrlParser: true,
+	useCreateIndex: true
+}).then(() => {
+	console.log("connected to DB");
+}).catch(err => {
+	console.log("ERROR", err);
+});
+
 	mongoose.set('useNewUrlParser', true);
 	mongoose.set('useFindAndModify', false);
 	mongoose.set('useCreateIndex', true);
@@ -52,6 +60,6 @@ app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
 
-app.listen(3000, function(){
+app.listen(process.env.PORT, process.env.IP, function(){
 	console.log("YelpCamp server working");
 });
